@@ -2,8 +2,10 @@
    RuRuBurger — app.js
    ============================================== */
 
-/* ===== TELEGRAM DEEPLINK CONFIG ===== */
-const TELEGRAM_BOT_USERNAME = 'RuRuBurgerBot'; // username бота без @
+/* ===== НАСТРОЙКИ ОТПРАВКИ ЗАКАЗА ===== */
+// Вставь сюда ссылку из Google Apps Script → Управление развертываниями → Копировать /exec URL
+const GOOGLE_SCRIPT_URL = 'СЮДА_ССЫЛКУ_НА_GOOGLE_SCRIPT';
+const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycb.../exec';
 
 /* ==============================
    MENU DATA
@@ -27,59 +29,59 @@ const menuData = {
     { name:"Френч-Дог куриный", desc:"Булочка, куриная колбаска, кетчуп, майонез, горчичный соус", price:190 },
   ],
   snacks: [
-    { name:"Картофель Фри",           desc:"Золотистые хрустящие ломтики",          variants:[{label:"150г",price:170},{label:"300г",price:300}] },
-    { name:"Картофель по-деревенски", desc:"Кусочки с кожурой, фирменная приправа", variants:[{label:"150г",price:180},{label:"300г",price:320}] },
-    { name:"Наггетсы",                desc:"Сочные куриные наггетсы",               variants:[{label:"3 шт",price:130},{label:"6 шт",price:240},{label:"9 шт",price:330}] },
-    { name:"Сырные палочки",          desc:"Хрустящие, тянущийся сыр",             variants:[{label:"3 шт",price:150},{label:"6 шт",price:270},{label:"9 шт",price:360}] },
-    { name:"Крылышки",                desc:"Сочные куриные крылышки",              variants:[{label:"3 шт",price:240},{label:"6 шт",price:420},{label:"9 шт",price:560}] },
-    { name:"Стрипсы",                 desc:"В хрустящей панировке",                variants:[{label:"3 шт",price:140},{label:"6 шт",price:250},{label:"9 шт",price:340}] },
-    { name:"Креветки в панировке",    desc:"Тигровые креветки в хрустящей корочке",variants:[{label:"3 шт",price:170},{label:"6 шт",price:290},{label:"9 шт",price:380}] },
+    { name:"Картофель Фри",           desc:"Золотистые хрустящие ломтики",           variants:[{label:"150г",price:170},{label:"300г",price:300}] },
+    { name:"Картофель по-деревенски", desc:"Кусочки с кожурой, фирменная приправа",  variants:[{label:"150г",price:180},{label:"300г",price:320}] },
+    { name:"Наггетсы",                desc:"Сочные куриные наггетсы",                variants:[{label:"3 шт",price:130},{label:"6 шт",price:240},{label:"9 шт",price:330}] },
+    { name:"Сырные палочки",          desc:"Хрустящие, тянущийся сыр",              variants:[{label:"3 шт",price:150},{label:"6 шт",price:270},{label:"9 шт",price:360}] },
+    { name:"Крылышки",                desc:"Сочные куриные крылышки",               variants:[{label:"3 шт",price:240},{label:"6 шт",price:420},{label:"9 шт",price:560}] },
+    { name:"Стрипсы",                 desc:"В хрустящей панировке",                 variants:[{label:"3 шт",price:140},{label:"6 шт",price:250},{label:"9 шт",price:340}] },
+    { name:"Креветки в панировке",    desc:"Тигровые креветки в хрустящей корочке", variants:[{label:"3 шт",price:170},{label:"6 шт",price:290},{label:"9 шт",price:380}] },
   ],
   fastfood: [
     { name:"Гирос в лепешке", desc:"Пита, куриное филе, помидор, картошка фри, маринованный лук, красный соус, белый соус", price:380 },
     { name:"Клаб-Сэндвич",    desc:"Тостовый хлеб, куриное филе, яйцо, помидор, салат, бекон, майонез, горчица", price:360 },
-    { name:"Тортилья",         desc:"Пшеничная лепёшка, куриное филе, свежие овощи, соус", price:360 },
-    { name:"Кесадилья",        desc:"Лепёшка, плавленый сыр, курица, томаты", price:320 },
+    { name:"Тортилья",        desc:"Пшеничная лепёшка, куриное филе, свежие овощи, соус", price:360 },
+    { name:"Кесадилья",       desc:"Лепёшка, плавленый сыр, курица, томаты", price:320 },
   ],
   sauces: [
-    { name:"Кисло-сладкий соус",   desc:"", variants:[{label:"Маленький",price:40},{label:"Большой",price:50}] },
-    { name:"Сырный соус",          desc:"", variants:[{label:"Маленький",price:40},{label:"Большой",price:50}] },
-    { name:"Кетчуп",               desc:"", variants:[{label:"Маленький",price:40},{label:"Большой",price:50}] },
-    { name:"Соус Барбекю",         desc:"", variants:[{label:"Маленький",price:40},{label:"Большой",price:50}] },
-    { name:"Соус 1000 островов",   desc:"", variants:[{label:"Маленький",price:40},{label:"Большой",price:50}] },
-    { name:"Красный соус",         desc:"", variants:[{label:"Маленький",price:40},{label:"Большой",price:50}] },
-    { name:"Белый соус",           desc:"", variants:[{label:"Маленький",price:40},{label:"Большой",price:50}] },
-    { name:"Маринованный лук",     desc:"Добавка к блюду", price:40 },
-    { name:"Перец халапеньо",      desc:"Добавка, острый",  price:40 },
-    { name:"Дополнительный сыр",   desc:"Добавка",          price:50 },
+    { name:"Кисло-сладкий соус",  desc:"", variants:[{label:"Маленький",price:40},{label:"Большой",price:50}] },
+    { name:"Сырный соус",         desc:"", variants:[{label:"Маленький",price:40},{label:"Большой",price:50}] },
+    { name:"Кетчуп",              desc:"", variants:[{label:"Маленький",price:40},{label:"Большой",price:50}] },
+    { name:"Соус Барбекю",        desc:"", variants:[{label:"Маленький",price:40},{label:"Большой",price:50}] },
+    { name:"Соус 1000 островов",  desc:"", variants:[{label:"Маленький",price:40},{label:"Большой",price:50}] },
+    { name:"Красный соус",        desc:"", variants:[{label:"Маленький",price:40},{label:"Большой",price:50}] },
+    { name:"Белый соус",          desc:"", variants:[{label:"Маленький",price:40},{label:"Большой",price:50}] },
+    { name:"Маринованный лук",    desc:"Добавка к блюду", price:40 },
+    { name:"Перец халапеньо",     desc:"Добавка, острый",  price:40 },
+    { name:"Дополнительный сыр",  desc:"Добавка",          price:50 },
   ],
   drinks: [
-    { name:"Добрый Кола",          desc:"", variants:[{label:"0.33 л",price:120},{label:"0.5 л",price:130}] },
-    { name:"Добрый Фанта",         desc:"", variants:[{label:"0.33 л",price:120},{label:"0.5 л",price:130}] },
-    { name:"Добрый Спрайт",        desc:"0.33 л", price:120 },
-    { name:"Добрый Киви-виноград", desc:"0.33 л", price:120 },
-    { name:"Добрый Манго-маракуйя",desc:"0.5 л",  price:130 },
-    { name:"Адреналин",            desc:"Энергетик", variants:[{label:"0.25 л",price:120},{label:"0.5 л",price:160}] },
-    { name:"Сок Добрый Яблоко",    desc:"0.3 л", price:100 },
-    { name:"Сок Добрый Мультифрукт",desc:"0.3 л",price:100 },
-    { name:"Сок Ричи Вишня",       desc:"0.3 л", price:110 },
-    { name:"Сок Ричи Апельсин",    desc:"0.3 л", price:110 },
-    { name:"Чай Ричи Лимон",       desc:"0.5 л", price:130 },
-    { name:"Чай Ричи Персик",      desc:"0.5 л", price:130 },
-    { name:"Чай Ричи Зелёный",     desc:"0.5 л", price:130 },
-    { name:"Палпи",                desc:"0.5 л, апельсиновый", price:120 },
-    { name:"Вода газированная",    desc:"0.5 л", price:60 },
-    { name:"Вода негазированная",  desc:"0.5 л", price:60 },
+    { name:"Добрый Кола",           desc:"", variants:[{label:"0.33 л",price:120},{label:"0.5 л",price:130}] },
+    { name:"Добрый Фанта",          desc:"", variants:[{label:"0.33 л",price:120},{label:"0.5 л",price:130}] },
+    { name:"Добрый Спрайт",         desc:"0.33 л", price:120 },
+    { name:"Добрый Киви-виноград",  desc:"0.33 л", price:120 },
+    { name:"Добрый Манго-маракуйя", desc:"0.5 л",  price:130 },
+    { name:"Адреналин",             desc:"Энергетик", variants:[{label:"0.25 л",price:120},{label:"0.5 л",price:160}] },
+    { name:"Сок Добрый Яблоко",     desc:"0.3 л", price:100 },
+    { name:"Сок Добрый Мультифрукт",desc:"0.3 л", price:100 },
+    { name:"Сок Ричи Вишня",        desc:"0.3 л", price:110 },
+    { name:"Сок Ричи Апельсин",     desc:"0.3 л", price:110 },
+    { name:"Чай Ричи Лимон",        desc:"0.5 л", price:130 },
+    { name:"Чай Ричи Персик",       desc:"0.5 л", price:130 },
+    { name:"Чай Ричи Зелёный",      desc:"0.5 л", price:130 },
+    { name:"Палпи",                 desc:"0.5 л, апельсиновый", price:120 },
+    { name:"Вода газированная",     desc:"0.5 л", price:60 },
+    { name:"Вода негазированная",   desc:"0.5 л", price:60 },
   ],
   hot: [
-    { name:"Чай чёрный",     desc:"Горячий",       price:50 },
-    { name:"Кофе",           desc:"Растворимый",   price:50 },
-    { name:"MacCoffee 3 в 1",desc:"",              price:50 },
+    { name:"Чай чёрный",      desc:"Горячий",     price:50 },
+    { name:"Кофе",            desc:"Растворимый", price:50 },
+    { name:"MacCoffee 3 в 1", desc:"",            price:50 },
   ],
   desserts: [
-    { name:"Чизкейк Арахис-карамель",desc:"Нежный сливочный чизкейк с карамелью и арахисом", price:230 },
-    { name:"Чизкейк Шоколадный",     desc:"Насыщенный шоколадный чизкейк",                    price:230 },
-    { name:"Чизкейк Клубничный",     desc:"Чизкейк с ароматной клубникой",                    price:230 },
+    { name:"Чизкейк Арахис-карамель", desc:"Нежный сливочный чизкейк с карамелью и арахисом", price:230 },
+    { name:"Чизкейк Шоколадный",      desc:"Насыщенный шоколадный чизкейк",                    price:230 },
+    { name:"Чизкейк Клубничный",      desc:"Чизкейк с ароматной клубникой",                    price:230 },
   ],
 };
 
@@ -89,7 +91,7 @@ const menuData = {
 function createCard(item) {
   const card = document.createElement('div');
   card.className = 'menu-card';
-  const hasVariants = item.variants && item.variants.length > 0;
+  const hasVariants    = item.variants && item.variants.length > 0;
   const defaultPrice   = hasVariants ? item.variants[0].price : item.price;
   const defaultVariant = hasVariants ? item.variants[0].label : '';
 
@@ -113,14 +115,14 @@ function createCard(item) {
   `;
 
   if (hasVariants) {
-    const vBtns  = card.querySelectorAll('.variant-btn');
+    const vBtns   = card.querySelectorAll('.variant-btn');
     const priceEl = card.querySelector('.card-price');
     const addBtn  = card.querySelector('.add-btn');
     vBtns.forEach(btn => {
       btn.addEventListener('click', () => {
         vBtns.forEach(b => b.classList.remove('selected'));
         btn.classList.add('selected');
-        priceEl.textContent   = btn.dataset.price + '₽';
+        priceEl.textContent    = btn.dataset.price + '₽';
         addBtn.dataset.price   = btn.dataset.price;
         addBtn.dataset.variant = btn.dataset.label;
       });
@@ -130,8 +132,8 @@ function createCard(item) {
   card.querySelector('.add-btn').addEventListener('click', function () {
     addToCart(this.dataset.name, parseInt(this.dataset.price), this.dataset.variant || '');
     const orig = this.textContent;
-    this.textContent       = '✓ Добавлено';
-    this.style.background  = 'rgba(255,204,0,0.22)';
+    this.textContent      = '✓ Добавлено';
+    this.style.background = 'rgba(255,204,0,0.22)';
     setTimeout(() => { this.textContent = orig; this.style.background = ''; }, 900);
   });
 
@@ -281,19 +283,17 @@ const modalOverlay    = document.getElementById('modalOverlay');
 const deliveryOptions = document.querySelectorAll('.toggle-option');
 const addressField    = document.getElementById('addressField');
 
-// Delivery toggle
+// Переключатель доставка / самовывоз
 deliveryOptions.forEach(opt => {
   opt.addEventListener('click', () => {
     deliveryOptions.forEach(o => o.classList.remove('active'));
     opt.classList.add('active');
-    // Show address input only for delivery
     addressField.classList.toggle('visible', opt.dataset.value === 'delivery');
   });
 });
 
 document.getElementById('btnOrder').addEventListener('click', () => {
   if (cart.length === 0) { showToast('Добавьте товары в корзину'); return; }
-  // Fill cart preview in modal
   refreshModalPreview();
   modalOverlay.classList.add('open');
   closeCart();
@@ -314,91 +314,102 @@ document.getElementById('modalClose').addEventListener('click', closeModal);
 modalOverlay.addEventListener('click', e => { if (e.target === modalOverlay) closeModal(); });
 
 /* ==============================
-   BUILD ORDER MESSAGE
+   BUILD ORDER LIST (для Google Script)
 ============================== */
 
 /**
- * Собирает текст заказа строго по шаблону.
- * Первая строка "Заказ RuRuBurger" — ключевая фраза для бота.
+ * Собирает строку состава заказа для поля order_list.
  */
-function buildOrderMessage(clientName, clientPhone, deliveryType, address) {
-  const totalSum    = cart.reduce((s, i) => s + i.price * i.qty, 0);
-  const separator   = '------------------------';
-  const addressLine = deliveryType === 'delivery' ? address : 'ст. Отрадная, ул. Ленина, 15Б (самовывоз)';
-
-  // Нумерованный список товаров
-  const itemLines = cart.map((item, idx) => {
+function buildOrderList() {
+  return cart.map(item => {
     const variant = item.variant ? ` (${item.variant})` : '';
-    return `${idx + 1}. ${item.name}${variant} — ${item.qty} шт. х ${item.price} ₽`;
+    return `${item.qty}х ${item.name}${variant} — ${item.price} ₽`;
   }).join('\n');
-
-  return [
-    'Заказ RuRuBurger',           // ← ключевая фраза для распознавания ботом
-    '📦 НОВЫЙ ЗАКАЗ!',
-    separator,
-    `👤 Клиент: ${clientName}`,
-    `📞 Телефон: ${clientPhone}`,
-    `🚗 Способ: ${deliveryType === 'delivery' ? 'Доставка' : 'Самовывоз'}`,
-    `📍 Адрес: ${addressLine}`,
-    separator,
-    '🧾 СОСТАВ ЗАКАЗА:',
-    itemLines,
-    separator,
-    `💰 ИТОГО К ОПЛАТЕ: ${totalSum.toLocaleString('ru')} ₽`,
-  ].join('\n');
 }
 
 /* ==============================
-   SUBMIT ORDER — DEEPLINK
+   SUBMIT ORDER — GOOGLE APPS SCRIPT
 ============================== */
 
 /**
  * Клик «Отправить заказ»:
  * 1. Валидирует форму
- * 2. Собирает текст заказа
- * 3. Кодирует через encodeURIComponent
- * 4. Открывает t.me/RuRuBurgerBot?text=... — Telegram откроется
- *    с готовым текстом в поле ввода, клиенту остаётся нажать «Отправить»
+ * 2. Собирает данные корзины и формы в объект
+ * 3. Шлёт POST на Google Apps Script (серверы Google, США)
+ * 4. Google Script пересылает в Telegram — никаких блокировок
  */
-document.getElementById('btnSendOrder').addEventListener('click', () => {
+document.getElementById('btnSendOrder').addEventListener('click', async () => {
   const nameInput    = document.getElementById('inputName');
   const phoneInput   = document.getElementById('inputPhone');
   const addressInput = document.getElementById('inputAddress');
   const activeOption = document.querySelector('.toggle-option.active');
   const deliveryType = activeOption ? activeOption.dataset.value : 'pickup';
+  const sendBtn      = document.getElementById('btnSendOrder');
 
   // Валидация
   const name  = nameInput.value.trim();
   const phone = phoneInput.value.trim();
   const addr  = addressInput ? addressInput.value.trim() : '';
 
-  if (!name)  { nameInput.focus();  showToast('Введите ваше имя');        return; }
-  if (phone.length < 7) { phoneInput.focus(); showToast('Введите телефон'); return; }
+  if (!name)            { nameInput.focus();  showToast('Введите ваше имя');        return; }
+  if (phone.length < 7) { phoneInput.focus(); showToast('Введите телефон');         return; }
   if (deliveryType === 'delivery' && !addr) {
     addressInput.focus();
     showToast('Введите адрес доставки');
     return;
   }
 
-  // Собираем текст и кодируем
-  const message      = buildOrderMessage(name, phone, deliveryType, addr);
-  const encoded      = encodeURIComponent(message);
-  const telegramUrl  = `https://t.me/${TELEGRAM_BOT_USERNAME}?text=${encoded}`;
+  // При самовывозе подставляем адрес заведения
+  const addressLine = deliveryType === 'delivery'
+    ? addr
+    : 'ст. Отрадная, ул. Ленина, 15Б (самовывоз)';
 
-  // Открываем Telegram с готовым текстом
-  window.open(telegramUrl, '_blank');
+  const totalSum = cart.reduce((s, i) => s + i.price * i.qty, 0);
 
-  // Очищаем корзину и форму после перехода
-  cart = [];
-  renderCart();
-  closeModal();
+  // Объект данных — точно под формат Google Script от Gemini
+  const orderData = {
+    name:       name,
+    phone:      phone,
+    address:    addressLine,
+    comment:    deliveryType === 'delivery' ? 'Доставка' : 'Самовывоз',
+    order_list: buildOrderList() + '\n\n💰 ИТОГО: ' + totalSum.toLocaleString('ru') + ' ₽',
+  };
 
-  nameInput.value  = '';
-  phoneInput.value = '';
-  if (addressInput) addressInput.value = '';
+  // Блокируем кнопку на время запроса
+  sendBtn.disabled    = true;
+  sendBtn.textContent = '⏳ Отправляем...';
 
-  // iOS-style баннер подтверждения
-  showSuccessBanner();
+  try {
+    const response = await fetch(GOOGLE_SCRIPT_URL, {
+      method: 'POST',
+      body:   JSON.stringify(orderData),
+      // Намеренно без Content-Type — Google Apps Script не любит preflight CORS
+    });
+
+    const result = await response.json();
+
+    if (result.status === 'success') {
+      // Очищаем корзину и форму
+      cart = [];
+      renderCart();
+      closeModal();
+
+      nameInput.value  = '';
+      phoneInput.value = '';
+      if (addressInput) addressInput.value = '';
+
+      showSuccessBanner();
+    } else {
+      throw new Error(result.message || 'Неизвестная ошибка');
+    }
+
+  } catch (err) {
+    console.error('Ошибка отправки заказа:', err);
+    showToast('Ошибка отправки. Позвоните нам: 8 918 162 31 45');
+  } finally {
+    sendBtn.disabled    = false;
+    sendBtn.textContent = '✈️ Отправить заказ';
+  }
 });
 
 /* ==============================
