@@ -5,7 +5,7 @@
 /* ===== НАСТРОЙКИ ОТПРАВКИ ЗАКАЗА ===== */
 // Вставь сюда ссылку из Google Apps Script → Управление развертываниями → Копировать /exec URL
 const GOOGLE_SCRIPT_URL = 'СЮДА_ССЫЛКУ_НА_GOOGLE_SCRIPT';
-const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycb.../exec';
+const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyZcktegKKrcMDP2XrMHm0SkKo2el0yEHUDozDtULKGgKTR7KcdQ2QMc6A_lPh-Dj4CXQ/exec';
 
 /* ==============================
    MENU DATA
