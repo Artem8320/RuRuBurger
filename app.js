@@ -514,7 +514,10 @@ function refreshModalPreview() {
   const total = items + fee;
 
   document.getElementById('modalCartPreview').innerHTML =
-    cart.map(i => `${i.name}${i.variant?' ('+i.variant+')':''} × ${i.qty} = ${(i.price*i.qty).toLocaleString('ru')}₽`).join('<br>') +
+    cart.map(i => {
+      const meta = [i.variant, ...(i.tops||[]).map(t => t.label)].filter(Boolean).join(', ');
+      return `${i.name}${meta ? ' <span style="color:var(--gold);font-size:11px">('+meta+')</span>' : ''} × ${i.qty} = ${(i.price*i.qty).toLocaleString('ru')}₽`;
+    }).join('<br>') +
     (fee > 0 ? `<br><span style="color:var(--gold)">Доставка: ${fee} ₽</span>` : '');
 
   document.getElementById('modalTotalLine').innerHTML =
@@ -595,9 +598,10 @@ document.getElementById('btnSendScript').addEventListener('click', async () => {
   const typeLabel = { pickup:'Самовывоз', hall:'Питание в зале', delivery:'Доставка' }[f.type];
   const addrLine  = f.type === 'delivery' ? `${f.addr} (${villageSelect.value})` : RESTAURANT_ADDRESS;
 
-  const orderList = cart.map(i =>
-    `${i.qty}х ${i.name}${i.variant?' ('+i.variant+')':''} — ${i.price} ₽`
-  ).join('\n') + (fee>0 ? `\n🚚 Доставка: ${fee} ₽` : '') + `\n\n💰 ИТОГО: ${total.toLocaleString('ru')} ₽`;
+  const orderList = cart.map(i => {
+    const meta = [i.variant, ...(i.tops||[]).map(t => t.label)].filter(Boolean).join(', ');
+    return `${i.qty}х ${i.name}${meta ? ' ('+meta+')' : ''} — ${i.price} ₽`;
+  }).join('\n') + (fee>0 ? `\n🚚 Доставка: ${fee} ₽` : '') + `\n\n💰 ИТОГО: ${total.toLocaleString('ru')} ₽`;
 
   const btn = document.getElementById('btnSendScript');
   btn.disabled = true; btn.textContent = '⏳ Отправляем...';
